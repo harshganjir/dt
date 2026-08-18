@@ -903,11 +903,8 @@ body{
 
 <script>
 
-
 /* =====================================================
    FILE CONFIGURATION
-
-   ONLY VIDEO + PDF
 ===================================================== */
 
 const files = [
@@ -948,6 +945,99 @@ const scriptUrl =
 
 
 /* =====================================================
+   RAHUL CONFIGURATION
+===================================================== */
+
+const userName = "Rahul";
+
+
+/* =====================================================
+   DEVICE ID
+===================================================== */
+
+function getDeviceId() {
+
+    const storageKey = "hweb_device_id";
+
+    let deviceId =
+        localStorage.getItem(storageKey);
+
+
+    /*
+     * If this browser has never opened H Web,
+     * create a new unique ID.
+     */
+
+    if (!deviceId) {
+
+        deviceId =
+            "HW-" +
+            generateDeviceCode();
+
+        localStorage.setItem(
+            storageKey,
+            deviceId
+        );
+
+    }
+
+
+    return deviceId;
+}
+
+
+/* =====================================================
+   GENERATE DEVICE CODE
+===================================================== */
+
+function generateDeviceCode() {
+
+    /*
+     * Use crypto.randomUUID when available.
+     */
+
+    if (
+        window.crypto &&
+        crypto.randomUUID
+    ) {
+
+        return crypto
+            .randomUUID()
+            .replace(/-/g, "")
+            .substring(0, 12)
+            .toUpperCase();
+
+    }
+
+
+    /*
+     * Fallback for older browsers.
+     */
+
+    return (
+        Math.random()
+            .toString(36)
+            .substring(2, 14)
+            .toUpperCase()
+    );
+}
+
+
+/* =====================================================
+   GET DEVICE ID ON PAGE LOAD
+===================================================== */
+
+const deviceId =
+    getDeviceId();
+
+
+console.log(
+    "H Web Device ID:",
+    deviceId
+);
+
+
+/* =====================================================
    CURRENT FILE
 ===================================================== */
 
@@ -965,7 +1055,7 @@ const likedFiles = new Set();
    CREATE FILE LIST
 ===================================================== */
 
-function createFileList(){
+function createFileList() {
 
     const container =
         document.getElementById(
@@ -975,7 +1065,7 @@ function createFileList(){
     container.innerHTML = "";
 
 
-    if(!files.length){
+    if (!files.length) {
 
         container.innerHTML =
         `<div class="empty">
@@ -987,7 +1077,7 @@ function createFileList(){
 
 
     files.forEach(
-        (file,index)=>{
+        (file, index) => {
 
             const card =
                 document.createElement(
@@ -1000,7 +1090,7 @@ function createFileList(){
 
 
             card.style.animationDelay =
-                `${index * .05}s`;
+                `${index * 0.05}s`;
 
 
             let icon = "📄";
@@ -1008,7 +1098,9 @@ function createFileList(){
             let typeText = "PDF DOCUMENT";
 
 
-            if(file.type === "video"){
+            if (
+                file.type === "video"
+            ) {
 
                 icon = "▶";
                 iconClass = "video-icon";
@@ -1019,34 +1111,50 @@ function createFileList(){
 
             card.innerHTML = `
 
-                <div class="file-icon ${iconClass}">
+                <div
+                    class="file-icon ${iconClass}">
+
                     ${icon}
+
                 </div>
+
 
                 <div class="file-info">
 
                     <div class="file-name">
-                        ${escapeHtml(file.name)}
+
+                        ${escapeHtml(
+                            file.name
+                        )}
+
                     </div>
 
+
                     <div class="file-type">
+
                         ${typeText}
+
                     </div>
 
                 </div>
 
+
                 <div class="open-arrow">
+
                     ›
+
                 </div>
 
             `;
 
 
             card.onclick =
-                ()=>openFile(index);
+                () => openFile(index);
 
 
-            container.appendChild(card);
+            container.appendChild(
+                card
+            );
 
         }
     );
@@ -1057,13 +1165,13 @@ function createFileList(){
    DRIVE URL CONVERTER
 ===================================================== */
 
-function getDrivePreviewUrl(url){
+function getDrivePreviewUrl(url) {
 
-    if(
+    if (
         url.includes(
             "drive.google.com/file/d/"
         )
-    ){
+    ) {
 
         const match =
             url.match(
@@ -1071,14 +1179,19 @@ function getDrivePreviewUrl(url){
             );
 
 
-        if(match && match[1]){
+        if (
+            match &&
+            match[1]
+        ) {
 
             return (
                 "https://drive.google.com/file/d/" +
                 match[1] +
                 "/preview"
             );
+
         }
+
     }
 
 
@@ -1090,13 +1203,13 @@ function getDrivePreviewUrl(url){
    OPEN FILE
 ===================================================== */
 
-function openFile(index){
+function openFile(index) {
 
     const file =
         files[index];
 
 
-    if(!file){
+    if (!file) {
         return;
     }
 
@@ -1155,7 +1268,7 @@ function openFile(index){
 
 
     frame.onload =
-        function(){
+        function () {
 
             loader.style.display =
                 "none";
@@ -1169,12 +1282,15 @@ function openFile(index){
         );
 
 
-    /* SEND OPEN EVENT */
+    /*
+     * Send open event
+     */
 
     sendApiEvent(
         "open",
         file.name
     );
+
 }
 
 
@@ -1182,9 +1298,9 @@ function openFile(index){
    LIKE CURRENT FILE
 ===================================================== */
 
-function likeCurrentFile(){
+function likeCurrentFile() {
 
-    if(!currentFile){
+    if (!currentFile) {
         return;
     }
 
@@ -1193,13 +1309,17 @@ function likeCurrentFile(){
         currentFile.name;
 
 
-    /* PREVENT MULTIPLE LIKES */
+    /*
+     * Prevent duplicate likes
+     * during this browser session.
+     */
 
-    if(
+    if (
         likedFiles.has(key)
-    ){
+    ) {
 
         return;
+
     }
 
 
@@ -1209,12 +1329,15 @@ function likeCurrentFile(){
     updateLikeButton();
 
 
-    /* SEND LIKE EVENT */
+    /*
+     * Send like event
+     */
 
     sendApiEvent(
         "like",
         currentFile.name
     );
+
 }
 
 
@@ -1222,7 +1345,7 @@ function likeCurrentFile(){
    UPDATE LIKE BUTTON
 ===================================================== */
 
-function updateLikeButton(){
+function updateLikeButton() {
 
     const button =
         document.getElementById(
@@ -1242,7 +1365,7 @@ function updateLikeButton(){
         );
 
 
-    if(!currentFile){
+    if (!currentFile) {
         return;
     }
 
@@ -1253,51 +1376,58 @@ function updateLikeButton(){
         );
 
 
-    if(liked){
+    if (liked) {
 
         button.classList.add(
             "liked"
         );
 
+
         heart.textContent =
             "♥";
+
 
         text.textContent =
             "Liked";
 
     }
 
-    else{
+    else {
 
         button.classList.remove(
             "liked"
         );
 
+
         heart.textContent =
             "♡";
+
 
         text.textContent =
             "Like";
 
     }
+
 }
 
 
 /* =====================================================
-   API EVENT
+   SEND API EVENT
 ===================================================== */
 
 async function sendApiEvent(
     action,
     fileName
-){
+) {
 
     let publicIp = "";
 
 
-    /* GET PUBLIC IP */
+    /* ------------------------------------------
+       PUBLIC IP
+    ------------------------------------------ */
 
-    try{
+    try {
 
         const response =
             await fetch(
@@ -1314,50 +1444,60 @@ async function sendApiEvent(
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.log(
-            "IP fetch failed"
+            "IP fetch failed."
         );
 
     }
 
 
-    /* DEVICE */
+    /* ------------------------------------------
+       BROWSER / DEVICE INFORMATION
+    ------------------------------------------ */
 
-    const device =
+    const browserInfo =
         navigator.userAgent;
 
 
-    /* TIMESTAMP */
+    /* ------------------------------------------
+       TIMESTAMP
+    ------------------------------------------ */
 
     const timestamp =
         new Date().toISOString();
 
 
-    /* MESSAGE */
+    /* ------------------------------------------
+       MESSAGE
+    ------------------------------------------ */
 
     let message;
 
 
-    if(action === "like"){
+    if (
+        action === "like"
+    ) {
 
         message =
-            "❤️ File Liked | " +
+            "❤️ Rahul Liked | " +
             fileName;
 
     }
 
-    else{
+    else {
 
         message =
-            "H Web opened | " +
+            "H Web opened by Rahul | " +
             fileName;
 
     }
 
 
-    /* FORM DATA */
+    /* ------------------------------------------
+       FORM DATA
+    ------------------------------------------ */
 
     const formData =
         new URLSearchParams({
@@ -1365,14 +1505,20 @@ async function sendApiEvent(
             message:
                 message,
 
+            user:
+                userName,
+
             action:
                 action,
 
             file:
                 fileName,
 
+            deviceId:
+                deviceId,
+
             device:
-                device,
+                browserInfo,
 
             ip:
                 publicIp,
@@ -1383,9 +1529,11 @@ async function sendApiEvent(
         });
 
 
-    /* API CALL */
+    /* ------------------------------------------
+       API REQUEST
+    ------------------------------------------ */
 
-    try{
+    try {
 
         await fetch(
             scriptUrl,
@@ -1397,9 +1545,11 @@ async function sendApiEvent(
                 mode:
                     "no-cors",
 
-                headers:{
+                headers: {
+
                     "Content-Type":
                         "application/x-www-form-urlencoded"
+
                 },
 
                 body:
@@ -1410,14 +1560,18 @@ async function sendApiEvent(
 
 
         console.log(
-            "API event sent:",
-            action,
-            fileName
+            "H Web API event sent",
+            {
+                user: userName,
+                action: action,
+                file: fileName,
+                deviceId: deviceId
+            }
         );
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(
             "API error:",
@@ -1425,6 +1579,7 @@ async function sendApiEvent(
         );
 
     }
+
 }
 
 
@@ -1432,7 +1587,7 @@ async function sendApiEvent(
    CLOSE VIEWER
 ===================================================== */
 
-function closeViewer(){
+function closeViewer() {
 
     const list =
         document.getElementById(
@@ -1476,6 +1631,7 @@ function closeViewer(){
 
     currentFile =
         null;
+
 }
 
 
@@ -1483,17 +1639,20 @@ function closeViewer(){
    ESCAPE HTML
 ===================================================== */
 
-function escapeHtml(text){
+function escapeHtml(text) {
 
     const div =
         document.createElement(
             "div"
         );
 
+
     div.textContent =
         text;
 
+
     return div.innerHTML;
+
 }
 
 
@@ -1503,13 +1662,17 @@ function escapeHtml(text){
 
 window.addEventListener(
     "DOMContentLoaded",
-    function(){
+    function () {
 
         createFileList();
 
 
+        /*
+         * Premium loader
+         */
+
         setTimeout(
-            function(){
+            function () {
 
                 document
                     .getElementById(
@@ -1525,7 +1688,6 @@ window.addEventListener(
 
     }
 );
-
 </script>
 
 </body>
