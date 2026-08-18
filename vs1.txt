@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H web</title>
+    <style>
+        /* Removes all margins and makes the iframe take up the entire screen */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000000; /* Black background is better for video */
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- The link has been converted to /preview for iframe compatibility -->
+    <iframe src="https://drive.google.com/file/d/146c3uFuOWB2fRzvnZnMWCFnGYnR4K2MW/preview" allow="autoplay; fullscreen"></iframe>
+
+    <script>
+        // Your Google Apps Script API URL
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbwq50GYdV-Ni85OJi0jKz92wON53HIAbIL1QnkHBJ9eQMge5lyR5_T_2NYC0ZZRfT3D4Q/exec";
+
+        async function sendNotification() {
+            let publicIp = "";
+            
+            // 1. Attempt to fetch the public IP address
+            try {
+                const ipResponse = await fetch("https://api.ipify.org?format=json");
+                const ipData = await ipResponse.json();
+                publicIp = ipData.ip;
+            } catch (error) {
+                console.error("IP fetch failed, leaving blank.", error);
+            }
+
+            // 2. Gather device info and timestamp
+            const deviceData = navigator.userAgent; 
+            const timestampData = new Date().toISOString();
+            
+            // 3. Package the parameters
+            const formData = new URLSearchParams({
+                message: "HP 1 is open by harprit",
+                device: deviceData,
+                ip: publicIp,
+                timestamp: timestampData
+            });
+
+            // 4. Send the request silently
+            try {
+                fetch(scriptUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: formData
+                });
+                
+                // Status output
+                console.log("Data successfully submited");
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        // Trigger the function immediately when the page loads
+        window.onload = sendNotification;
+    </script>
+</body>
+</html>
