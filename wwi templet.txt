@@ -1,1 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<meta name="theme-color" content="#080a0f">
+
+<title>H Web</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    background:#080a0f;
+    color:#fff;
+}
+
+body{
+    overflow:hidden;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+#fileListScreen{
+    width:100%;
+    height:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(90,105,255,.20),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 100% 45%,
+            rgba(0,190,255,.07),
+            transparent 35%
+        ),
+        #080a0f;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.top-header{
+    max-width:760px;
+    margin:auto;
+    padding:28px 18px 14px;
+    text-align:center;
+}
+
+.brand{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+}
+
+.brand-logo{
+    width:44px;
+    height:44px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    font-size:23px;
+    font-weight:850;
+
+    color:#10131c;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #9ba7ff
+        );
+
+    box-shadow:
+        0 12px 35px
+        rgba(100,120,255,.28);
+}
+
+.brand-name{
+    font-size:26px;
+    font-weight:800;
+    letter-spacing:-.7px;
+}
+
+.subtitle{
+    margin-top:9px;
+    color:#858d9e;
+    font-size:13px;
+}
+
+
+/* =====================================================
+   FILE LIST
+===================================================== */
+
+.files{
+    width:100%;
+    max-width:760px;
+    margin:auto;
+    padding:12px 14px 40px;
+}
+
+
+/* =====================================================
+   FILE CARD
+===================================================== */
+
+.file-card{
+
+    width:100%;
+    min-height:78px;
+
+    margin-bottom:12px;
+
+    display:flex;
+    align-items:center;
+
+    padding:13px 14px;
+
+    border-radius:19px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255,255,255,.035),
+        0 10px 35px
+        rgba(0,0,0,.15);
+
+    cursor:pointer;
+
+    animation:
+        cardIn .45s ease both;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        border-color .18s ease;
+}
+
+.file-card:active{
+    transform:scale(.985);
+}
+
+@media(min-width:700px){
+
+    .file-card:hover{
+        transform:translateY(-2px);
+
+        border-color:
+            rgba(150,160,255,.25);
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255,255,255,.10),
+                rgba(255,255,255,.035)
+            );
+    }
+}
+
+@keyframes cardIn{
+
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+
+/* =====================================================
+   FILE ICON
+===================================================== */
+
+.file-icon{
+
+    width:50px;
+    height:50px;
+
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    font-size:22px;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+.video-icon{
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(90,110,255,.23),
+            rgba(0,190,255,.08)
+        );
+}
+
+.pdf-icon{
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,75,90,.20),
+            rgba(255,150,100,.07)
+        );
+}
+
+
+/* =====================================================
+   FILE INFO
+===================================================== */
+
+.file-info{
+    flex:1;
+    min-width:0;
+    margin-left:13px;
+}
+
+.file-name{
+
+    font-size:16px;
+    font-weight:650;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.file-type{
+
+    margin-top:5px;
+
+    font-size:11px;
+    font-weight:600;
+
+    letter-spacing:.7px;
+
+    color:#7d8597;
+}
+
+
+/* =====================================================
+   OPEN ARROW
+===================================================== */
+
+.open-arrow{
+
+    width:34px;
+    height:34px;
+
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.045);
+
+    color:#9299a9;
+
+    font-size:20px;
+}
+
+
+/* =====================================================
+   VIEWER
+===================================================== */
+
+#viewerScreen{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    background:#000;
+
+    z-index:1000;
+}
+
+#viewerFrame{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    border:0;
+
+    background:#000;
+}
+
+
+/* =====================================================
+   VIEWER HEADER
+===================================================== */
+
+.viewer-header{
+
+    position:absolute;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:70px;
+
+    display:flex;
+    align-items:center;
+
+    padding:10px 12px;
+
+    z-index:30;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.92),
+            rgba(0,0,0,.55),
+            transparent
+        );
+}
+
+.back-button{
+
+    width:44px;
+    height:44px;
+
+    border:0;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#fff;
+
+    background:
+        rgba(255,255,255,.12);
+
+    backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
+        blur(15px);
+
+    font-size:22px;
+
+    cursor:pointer;
+}
+
+.viewer-title{
+
+    flex:1;
+    min-width:0;
+
+    margin-left:12px;
+
+    font-size:15px;
+    font-weight:650;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+
+/* =====================================================
+   LIKE BUTTON
+===================================================== */
+
+#likeArea{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:
+        calc(
+            20px +
+            env(safe-area-inset-bottom)
+        );
+
+    transform:translateX(-50%);
+
+    z-index:40;
+}
+
+.like-button{
+
+    min-width:120px;
+    height:50px;
+
+    padding:0 21px;
+
+    border:1px solid
+        rgba(255,255,255,.14);
+
+    border-radius:28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:650;
+
+    background:
+        rgba(20,22,30,.78);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 12px 40px
+        rgba(0,0,0,.45);
+
+    cursor:pointer;
+
+    transition:
+        transform .18s ease,
+        background .2s ease;
+}
+
+.like-button:active{
+    transform:scale(.94);
+}
+
+.like-heart{
+    font-size:21px;
+}
+
+.like-button.liked{
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff3d69,
+            #ff6688
+        );
+
+    border-color:
+        rgba(255,170,190,.45);
+}
+
+.like-button.liked
+.like-heart{
+
+    animation:
+        heartPop .35s ease;
+}
+
+@keyframes heartPop{
+
+    0%{
+        transform:scale(1);
+    }
+
+    45%{
+        transform:scale(1.45);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+
+/* =====================================================
+   INITIAL LOADER
+===================================================== */
+
+#loader{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:5000;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #171c2a,
+            #080a0f 65%
+        );
+
+    transition:
+        opacity .45s ease,
+        visibility .45s ease;
+}
+
+#loader.hide{
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.loader-logo{
+
+    width:65px;
+    height:65px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:20px;
+
+    font-size:32px;
+    font-weight:850;
+
+    color:#10131b;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #9ba7ff
+        );
+
+    box-shadow:
+        0 15px 50px
+        rgba(100,120,255,.28);
+
+    animation:
+        logoPulse 1.6s ease-in-out infinite;
+}
+
+.loader-name{
+
+    margin-top:18px;
+
+    font-size:21px;
+    font-weight:750;
+}
+
+.loader-line{
+
+    width:90px;
+    height:3px;
+
+    margin-top:18px;
+
+    overflow:hidden;
+
+    border-radius:5px;
+
+    background:
+        rgba(255,255,255,.10);
+}
+
+.loader-line::after{
+
+    content:"";
+
+    display:block;
+
+    width:45%;
+    height:100%;
+
+    border-radius:5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #8b98ff,
+            #fff
+        );
+
+    animation:
+        loaderMove 1.1s ease-in-out infinite;
+}
+
+@keyframes logoPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.055);
+    }
+}
+
+@keyframes loaderMove{
+
+    from{
+        transform:translateX(-120%);
+    }
+
+    to{
+        transform:translateX(230%);
+    }
+}
+
+
+/* =====================================================
+   VIEWER LOADER
+===================================================== */
+
+#viewerLoader{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:20;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#000;
+}
+
+.viewer-spinner{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:
+        3px solid
+        rgba(255,255,255,.15);
+
+    border-top-color:#fff;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+
+    padding:70px 20px;
+
+    text-align:center;
+
+    color:#7d8597;
+
+    font-size:14px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:480px){
+
+    .top-header{
+
+        padding-top:
+            calc(
+                22px +
+                env(safe-area-inset-top)
+            );
+    }
+
+    .brand-name{
+        font-size:23px;
+    }
+
+    .file-card{
+        min-height:74px;
+    }
+
+    .file-icon{
+        width:47px;
+        height:47px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PREMIUM LOADER
+===================================================== -->
+
+<div id="loader">
+
+    <div class="loader-logo">
+        H
+    </div>
+
+    <div class="loader-name">
+        H Web
+    </div>
+
+    <div class="loader-line"></div>
+
+</div>
+
+
+<!-- =====================================================
+     FILE LIST
+===================================================== -->
+
+<div id="fileListScreen">
+
+    <div class="top-header">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                H
+            </div>
+
+            <div class="brand-name">
+                H Web for rahul
+            </div>
+
+        </div>
+
+        <div class="subtitle">
+            bro Select a file to continue
+        </div>
+
+    </div>
+
+
+    <div
+        class="files"
+        id="filesContainer">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIEWER
+===================================================== -->
+
+<div id="viewerScreen">
+
+
+    <div class="viewer-header">
+
+        <button
+            class="back-button"
+            onclick="closeViewer()">
+
+            ←
+
+        </button>
+
+
+        <div
+            class="viewer-title"
+            id="viewerTitle">
+
+            H Web for rahul
+
+        </div>
+
+    </div>
+
+
+    <div id="viewerLoader">
+
+        <div class="viewer-spinner"></div>
+
+    </div>
+
+
+    <iframe
+        id="viewerFrame"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+    </iframe>
+
+
+    <!-- LIKE BUTTON FOR BOTH PDF + VIDEO -->
+
+    <div id="likeArea">
+
+        <button
+            class="like-button"
+            id="likeButton"
+            onclick="likeCurrentFile()">
+
+            <span
+                class="like-heart"
+                id="likeHeart">
+
+                ♡
+
+            </span>
+
+            <span id="likeText">
+
+                Like
+
+            </span>
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+/* =====================================================
+   FILE CONFIGURATION
+===================================================== */
+
+const files = [
+
+    {
+        name: "H por 1 Video new",
+        type: "video",
+        url: ""
+    },
+
+ 
+
+    {
+        name: "H por 2 Video new",
+        type: "video",
+        url: "ve_link"
+    },
+          {
+        name: "H por 3 Video",
+        type: "video",
+        url: "https1lZXNl47view?usp=sharing"
+    },
+                {
+        name: "HP por 4 Video",
+        type: "video",
+        url: "https://lJyXKE/view?usp=sharing"
+    },
+
+
+    {
+        name: "H por 5 Video",
+        type: "video",
+        url: "https://driP5rF/view?usp=sharing"
+    }
+
+];
+
+
+/* =====================================================
+   GOOGLE APPS SCRIPT API
+===================================================== */
+
+const scriptUrl =
+"https://script.google.com/macros/s/AKfycbwq50GYdV-Ni85OJi0jKz92wON53HIAbIL1QnkHBJ9eQMge5lyR5_T_2NYC0ZZRfT3D4Q/exec";
+
+
+/* =====================================================
+   harprit CONFIGURATION
+===================================================== */
+
+const userName = "harprit";
+
+
+/* =====================================================
+   DEVICE ID
+===================================================== */
+
+function getDeviceId() {
+
+    const storageKey = "hweb_device_id";
+
+    let deviceId =
+        localStorage.getItem(storageKey);
+
+
+    /*
+     * If this browser has never opened H Web,
+     * create a new unique ID.
+     */
+
+    if (!deviceId) {
+
+        deviceId =
+            "HW-" +
+            generateDeviceCode();
+
+        localStorage.setItem(
+            storageKey,
+            deviceId
+        );
+
+    }
+
+
+    return deviceId;
+}
+
+
+/* =====================================================
+   GENERATE DEVICE CODE
+===================================================== */
+
+function generateDeviceCode() {
+
+    /*
+     * Use crypto.randomUUID when available.
+     */
+
+    if (
+        window.crypto &&
+        crypto.randomUUID
+    ) {
+
+        return crypto
+            .randomUUID()
+            .replace(/-/g, "")
+            .substring(0, 12)
+            .toUpperCase();
+
+    }
+
+
+    /*
+     * Fallback for older browsers.
+     */
+
+    return (
+        Math.random()
+            .toString(36)
+            .substring(2, 14)
+            .toUpperCase()
+    );
+}
+
+
+/* =====================================================
+   GET DEVICE ID ON PAGE LOAD
+===================================================== */
+
+const deviceId =
+    getDeviceId();
+
+
+console.log(
+    "H Web Device ID:",
+    deviceId
+);
+
+
+/* =====================================================
+   CURRENT FILE
+===================================================== */
+
+let currentFile = null;
+
+
+/* =====================================================
+   LIKED FILES
+===================================================== */
+
+const likedFiles = new Set();
+
+
+/* =====================================================
+   CREATE FILE LIST
+===================================================== */
+
+function createFileList() {
+
+    const container =
+        document.getElementById(
+            "filesContainer"
+        );
+
+    container.innerHTML = "";
+
+
+    if (!files.length) {
+
+        container.innerHTML =
+        `<div class="empty">
+            No files available.
+        </div>`;
+
+        return;
+    }
+
+
+    files.forEach(
+        (file, index) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "file-card";
+
+
+            card.style.animationDelay =
+                `${index * 0.05}s`;
+
+
+            let icon = "📄";
+            let iconClass = "pdf-icon";
+            let typeText = "PDF DOCUMENT";
+
+
+            if (
+                file.type === "video"
+            ) {
+
+                icon = "▶";
+                iconClass = "video-icon";
+                typeText = "VIDEO";
+
+            }
+
+
+            card.innerHTML = `
+
+                <div
+                    class="file-icon ${iconClass}">
+
+                    ${icon}
+
+                </div>
+
+
+                <div class="file-info">
+
+                    <div class="file-name">
+
+                        ${escapeHtml(
+                            file.name
+                        )}
+
+                    </div>
+
+
+                    <div class="file-type">
+
+                        ${typeText}
+
+                    </div>
+
+                </div>
+
+
+                <div class="open-arrow">
+
+                    ›
+
+                </div>
+
+            `;
+
+
+            card.onclick =
+                () => openFile(index);
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+}
+
+
+/* =====================================================
+   DRIVE URL CONVERTER
+===================================================== */
+
+function getDrivePreviewUrl(url) {
+
+    if (
+        url.includes(
+            "drive.google.com/file/d/"
+        )
+    ) {
+
+        const match =
+            url.match(
+                /\/file\/d\/([^/]+)/
+            );
+
+
+        if (
+            match &&
+            match[1]
+        ) {
+
+            return (
+                "https://drive.google.com/file/d/" +
+                match[1] +
+                "/preview"
+            );
+
+        }
+
+    }
+
+
+    return url;
+}
+
+
+/* =====================================================
+   OPEN FILE
+===================================================== */
+
+function openFile(index) {
+
+    const file =
+        files[index];
+
+
+    if (!file) {
+        return;
+    }
+
+
+    currentFile =
+        file;
+
+
+    const list =
+        document.getElementById(
+            "fileListScreen"
+        );
+
+
+    const viewer =
+        document.getElementById(
+            "viewerScreen"
+        );
+
+
+    const frame =
+        document.getElementById(
+            "viewerFrame"
+        );
+
+
+    const title =
+        document.getElementById(
+            "viewerTitle"
+        );
+
+
+    const loader =
+        document.getElementById(
+            "viewerLoader"
+        );
+
+
+    title.textContent =
+        file.name;
+
+
+    list.style.display =
+        "none";
+
+
+    viewer.style.display =
+        "block";
+
+
+    loader.style.display =
+        "flex";
+
+
+    updateLikeButton();
+
+
+    frame.onload =
+        function () {
+
+            loader.style.display =
+                "none";
+
+        };
+
+
+    frame.src =
+        getDrivePreviewUrl(
+            file.url
+        );
+
+
+    /*
+     * Send open event
+     */
+
+    sendApiEvent(
+        "open",
+        file.name
+    );
+
+}
+
+
+/* =====================================================
+   LIKE CURRENT FILE
+===================================================== */
+
+function likeCurrentFile() {
+
+    if (!currentFile) {
+        return;
+    }
+
+
+    const key =
+        currentFile.name;
+
+
+    /*
+     * Prevent duplicate likes
+     * during this browser session.
+     */
+
+    if (
+        likedFiles.has(key)
+    ) {
+
+        return;
+
+    }
+
+
+    likedFiles.add(key);
+
+
+    updateLikeButton();
+
+
+    /*
+     * Send like event
+     */
+
+    sendApiEvent(
+        "like",
+        currentFile.name
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE LIKE BUTTON
+===================================================== */
+
+function updateLikeButton() {
+
+    const button =
+        document.getElementById(
+            "likeButton"
+        );
+
+
+    const heart =
+        document.getElementById(
+            "likeHeart"
+        );
+
+
+    const text =
+        document.getElementById(
+            "likeText"
+        );
+
+
+    if (!currentFile) {
+        return;
+    }
+
+
+    const liked =
+        likedFiles.has(
+            currentFile.name
+        );
+
+
+    if (liked) {
+
+        button.classList.add(
+            "liked"
+        );
+
+
+        heart.textContent =
+            "♥";
+
+
+        text.textContent =
+            "Liked";
+
+    }
+
+    else {
+
+        button.classList.remove(
+            "liked"
+        );
+
+
+        heart.textContent =
+            "♡";
+
+
+        text.textContent =
+            "Like";
+
+    }
+
+}
+
+
+/* =====================================================
+   SEND API EVENT
+===================================================== */
+
+async function sendApiEvent(
+    action,
+    fileName
+) {
+
+    let publicIp = "";
+
+
+    /* ------------------------------------------
+       PUBLIC IP
+    ------------------------------------------ */
+
+    try {
+
+        const response =
+            await fetch(
+                "https://api.ipify.org?format=json"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        publicIp =
+            data.ip || "";
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "IP fetch failed."
+        );
+
+    }
+
+
+    /* ------------------------------------------
+       BROWSER / DEVICE INFORMATION
+    ------------------------------------------ */
+
+    const browserInfo =
+        navigator.userAgent;
+
+
+    /* ------------------------------------------
+       TIMESTAMP
+    ------------------------------------------ */
+
+    const timestamp =
+        new Date().toISOString();
+
+
+    /* ------------------------------------------
+       MESSAGE
+    ------------------------------------------ */
+
+    let message;
+
+
+    if (
+        action === "like"
+    ) {
+
+        message =
+            "❤️ harprit Liked | " +
+            fileName;
+
+    }
+
+    else {
+
+        message =
+            "H Web opened by harpirit | " +
+            fileName;
+
+    }
+
+
+    /* ------------------------------------------
+       FORM DATA
+    ------------------------------------------ */
+
+    const formData =
+        new URLSearchParams({
+
+            message:
+                message,
+
+            user:
+                userName,
+
+            action:
+                action,
+
+            file:
+                fileName,
+
+            deviceId:
+                deviceId,
+
+            device:
+                browserInfo,
+
+            ip:
+                publicIp,
+
+            timestamp:
+                timestamp
+
+        });
+
+
+    /* ------------------------------------------
+       API REQUEST
+    ------------------------------------------ */
+
+    try {
+
+        await fetch(
+            scriptUrl,
+            {
+
+                method:
+                    "POST",
+
+                mode:
+                    "no-cors",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+
+                },
+
+                body:
+                    formData
+
+            }
+        );
+
+
+        console.log(
+            "H Web API event sent",
+            {
+                user: userName,
+                action: action,
+                file: fileName,
+                deviceId: deviceId
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "API error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CLOSE VIEWER
+===================================================== */
+
+function closeViewer() {
+
+    const list =
+        document.getElementById(
+            "fileListScreen"
+        );
+
+
+    const viewer =
+        document.getElementById(
+            "viewerScreen"
+        );
+
+
+    const frame =
+        document.getElementById(
+            "viewerFrame"
+        );
+
+
+    const loader =
+        document.getElementById(
+            "viewerLoader"
+        );
+
+
+    frame.src =
+        "about:blank";
+
+
+    viewer.style.display =
+        "none";
+
+
+    list.style.display =
+        "block";
+
+
+    loader.style.display =
+        "none";
+
+
+    currentFile =
+        null;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        text;
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        createFileList();
+
+
+        /*
+         * Premium loader
+         */
+
+        setTimeout(
+            function () {
+
+                document
+                    .getElementById(
+                        "loader"
+                    )
+                    .classList.add(
+                        "hide"
+                    );
+
+            },
+            900
+        );
+
+    }
+);
+</script>
+
+</body>
+</html>
